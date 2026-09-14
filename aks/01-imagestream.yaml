@@ -1,0 +1,36 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: hello-openshift
+  namespace: migration-test
+  labels:
+    app: hello-ocp
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - name: latest
+      from:
+        kind: DockerImage
+        name: docker.io/openshift/hello-openshift:latest
+      importPolicy:
+        scheduled: true
+      referencePolicy:
+        type: Source
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: hello-nodejs
+  namespace: migration-test
+  labels:
+    app: hello-ocp
+spec:
+  lookupPolicy:
+    local: false
+# NOTE:
+# ImageStream is an OpenShift-only resource with no direct AKS/K8s
+# equivalent. On migration this typically becomes:
+#   - an image reference pulled from Azure Container Registry (ACR), and
+#   - a CI/CD pipeline step (GitHub Actions / Azure Pipelines) replacing
+#     the ImageChange trigger behavior seen in DeploymentConfig below.

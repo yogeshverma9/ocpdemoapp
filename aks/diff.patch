@@ -1,0 +1,53 @@
+--- /dev/null
++++ b/07-ingress.yaml
+@@ -0,0 +1,26 @@
++apiVersion: networking.k8s.io/v1
++kind: Ingress
++metadata:
++  annotations:
++    haproxy.org/ssl-redirect: "false"
++  labels:
++    app: {{ .Values.service.label }}
++  name: hello-openshift
++  namespace: {{ .Values.deployment.namespace }}
++spec:
++  ingressClassName: haproxy
++  tls:
++    - hosts:
++        - {{ .Values.route.host }}
++      secretName: {{ .Values.route.tlsSecretName }}
++  rules:
++    - host: {{ .Values.route.host }}
++      http:
++        paths:
++          - path: /
++            pathType: Prefix
++            backend:
++              service:
++                name: hello-aks
++                port:
++                  number: {{ .Values.service.portValue }}--- a/07-route.yaml
++++ /dev/null
+@@ -1,22 +0,0 @@
+-apiVersion: route.openshift.io/v1
+-kind: Route
+-metadata:
+-  name: hello-openshift
+-  namespace: migration-test
+-  labels:
+-    app: hello-ocp
+-spec:
+-  to:
+-    kind: Service
+-    name: hello-openshift
+-    weight: 100
+-  port:
+-    targetPort: http
+-  tls:
+-    termination: edge
+-    insecureEdgeTerminationPolicy: Redirect
+-# NOTE:
+-# Route is OpenShift-only. On AKS this maps to a Kubernetes "Ingress"
+-# resource (e.g. via NGINX Ingress Controller or the Azure Application
+-# Gateway Ingress Controller / AGIC), or to Azure Front Door / App
+-# Gateway for TLS-terminated public entry points.

@@ -1,0 +1,76 @@
+{
+  "root": "/workspace",
+  "fileCount": 10,
+  "files": {
+    "00-namespace.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "Namespace",
+      "apiVersion": "v1"
+    },
+    "01-imagestream.yaml": {
+      "ocpScore": 1,
+      "markers": [
+        "OpenShift ImageStream API"
+      ],
+      "kind": "ImageStream",
+      "apiVersion": "image.openshift.io/v1"
+    },
+    "02-buildconfig.yaml": {
+      "ocpScore": 1,
+      "markers": [
+        "OpenShift BuildConfig API"
+      ],
+      "kind": "BuildConfig",
+      "apiVersion": "build.openshift.io/v1"
+    },
+    "03-configmap.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "ConfigMap",
+      "apiVersion": "v1"
+    },
+    "04-secret.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "Secret",
+      "apiVersion": "v1"
+    },
+    "05-deploymentconfig.yaml": {
+      "ocpScore": 1,
+      "markers": [
+        "OpenShift DeploymentConfig API"
+      ],
+      "kind": "DeploymentConfig",
+      "apiVersion": "apps.openshift.io/v1"
+    },
+    "06-service.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "Service",
+      "apiVersion": "v1"
+    },
+    "07-route.yaml": {
+      "ocpScore": 1,
+      "markers": [
+        "OpenShift Route API"
+      ],
+      "kind": "Route",
+      "apiVersion": "route.openshift.io/v1"
+    },
+    "08-hpa.yaml": {
+      "ocpScore": 1,
+      "markers": [
+        "OpenShift DeploymentConfig API"
+      ],
+      "kind": "HorizontalPodAutoscaler",
+      "apiVersion": "autoscaling/v2"
+    },
+    "09-pvc.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1"
+    }
+  }
+}
