@@ -2,7 +2,7 @@
 
 - **Repository:** `ocp-source`
 - **Mode:** `offline`
-- **Generated:** 2026-09-14T01:46:15+00:00
+- **Generated:** 2026-09-14T03:36:22+00:00
 
 ## Environment(s) converted
 
@@ -12,43 +12,37 @@
 
 ## Verdict: BLOCK
 
-4 blocking finding(s) must be resolved before this workload can be deployed to AKS. No pull request will be opened for deployment. The most severe items are structural defects the OpenShift platform tolerated but AKS will reject.
+2 blocking finding(s) must be resolved before this workload can be deployed to AKS. No pull request will be opened for deployment. The most severe items are structural defects the OpenShift platform tolerated but AKS will reject.
 
 | Severity | Count |
 |---|---|
-| BLOCK | 4 |
-| HIGH | 4 |
-| INFO | 8 |
-| NEEDS_INPUT | 1 |
+| BLOCK | 2 |
+| HIGH | 7 |
+| MEDIUM | 3 |
+| INFO | 21 |
+| NEEDS_INPUT | 9 |
 
 ## Transforms applied
 
 | Rule | File | Change |
 |---|---|---|
 | `T1` | `07-route.yaml` | Route converted to Ingress |
+| `T10` | `01-imagestream.yaml` | ImageStream 'hello-openshift' removed (no AKS equivalent) |
+| `T10` | `01-imagestream.yaml` | ImageStream 'hello-nodejs' removed (no AKS equivalent) |
+| `T11` | `02-buildconfig.yaml` | BuildConfig 'hello-nodejs-build' removed (no AKS equivalent) |
+| `T9` | `05-deploymentconfig.yaml` | DeploymentConfig 'hello-openshift' converted to Deployment |
+| `T10` | `aks/01-imagestream.yaml` | ImageStream 'hello-openshift' removed (no AKS equivalent) |
+| `T10` | `aks/01-imagestream.yaml` | ImageStream 'hello-nodejs' removed (no AKS equivalent) |
+| `T11` | `aks/02-buildconfig.yaml` | BuildConfig 'hello-nodejs-build' removed (no AKS equivalent) |
+| `T9` | `aks/05-deploymentconfig.yaml` | DeploymentConfig 'hello-openshift' converted to Deployment |
 | `L1` | `07-ingress.yaml` | LLM reviewed and updated this file |
+| `L1` | `aks/05-deploymentconfig.yaml` | LLM reviewed and updated this file |
 
 ## Findings requiring action
 
-### [BLOCK] `V7` — Forbidden apiVersion image.openshift.io/v1
-
-**Location:** `01-imagestream.yaml`
-
-image.openshift.io/v1 is not permitted on AKS.
-
-**Remediation:** Migrate to the supported API version.
-
-### [BLOCK] `V7` — Forbidden apiVersion build.openshift.io/v1
-
-**Location:** `02-buildconfig.yaml`
-
-build.openshift.io/v1 is not permitted on AKS.
-
-**Remediation:** Migrate to the supported API version.
-
 ### [BLOCK] `V7` — Forbidden apiVersion apps.openshift.io/v1
 
-**Location:** `05-deploymentconfig.yaml`
+**Location:** `08-hpa.yaml`
 
 apps.openshift.io/v1 is not permitted on AKS.
 
@@ -56,7 +50,7 @@ apps.openshift.io/v1 is not permitted on AKS.
 
 ### [BLOCK] `V7` — Forbidden apiVersion apps.openshift.io/v1
 
-**Location:** `08-hpa.yaml`
+**Location:** `aks/08-hpa.yaml`
 
 apps.openshift.io/v1 is not permitted on AKS.
 
@@ -94,6 +88,54 @@ Security context controls the allocation of security parameters for the pod/cont
 
 **Remediation:** To enhance security, it is strongly recommended not to rely on the default security context. Instead, it is advisable to explicitly define the required security parameters (such as runAsNonRoot, capabilities, readOnlyRootFilesystem, etc.) within the security context.
 
+### [HIGH] `V4` — Security: Root file system is not read-only
+
+**Location:** `aks/05-deploymentconfig.yaml`
+
+An immutable root file system prevents applications from writing to their local disk. This can limit intrusions, as attackers will not be able to tamper with the file system or write foreign executables to disk.
+
+**Remediation:** Change 'containers[].securityContext.readOnlyRootFilesystem' to 'true'.
+
+### [HIGH] `V4` — Security: Default security context configured
+
+**Location:** `aks/05-deploymentconfig.yaml`
+
+Security context controls the allocation of security parameters for the pod/container/volume, ensuring the appropriate level of protection. Relying on default security context may expose vulnerabilities to potential attacks that rely on privileged access.
+
+**Remediation:** To enhance security, it is strongly recommended not to rely on the default security context. Instead, it is advisable to explicitly define the required security parameters (such as runAsNonRoot, capabilities, readOnlyRootFilesystem, etc.) within the security context.
+
+### [HIGH] `V4` — Security: Default security context configured
+
+**Location:** `aks/05-deploymentconfig.yaml`
+
+Security context controls the allocation of security parameters for the pod/container/volume, ensuring the appropriate level of protection. Relying on default security context may expose vulnerabilities to potential attacks that rely on privileged access.
+
+**Remediation:** To enhance security, it is strongly recommended not to rely on the default security context. Instead, it is advisable to explicitly define the required security parameters (such as runAsNonRoot, capabilities, readOnlyRootFilesystem, etc.) within the security context.
+
+### [MED] `L3` — LLM refinement rejected, reverted to deterministic output
+
+**Location:** `08-hpa.yaml`
+
+The model's response for this file failed a basic sanity/YAML check and was discarded; the deterministic transform/remediate output was kept.
+
+**Remediation:** Optionally re-run with LLM_FORCE_REFRESH=true, or inspect the cached prompt/response under LLM_CACHE_DIR.
+
+### [MED] `L3` — LLM refinement rejected, reverted to deterministic output
+
+**Location:** `aks/08-hpa.yaml`
+
+The model's response for this file failed a basic sanity/YAML check and was discarded; the deterministic transform/remediate output was kept.
+
+**Remediation:** Optionally re-run with LLM_FORCE_REFRESH=true, or inspect the cached prompt/response under LLM_CACHE_DIR.
+
+### [MED] `L4` — LLM call failed, kept deterministic output
+
+**Location:** `05-deploymentconfig.yaml`
+
+The model call for this file raised TimeoutError: timed out. The deterministic transform/remediate output was kept unchanged.
+
+**Remediation:** Common causes: the model is too slow for LLM_TIMEOUT on this hardware (raise LLM_TIMEOUT, or use a smaller LLM_MODEL), or the provider endpoint is unreachable (check LLM_ENDPOINT).
+
 ### [INPUT] `T1` — Route TLS termination requires a secretName
 
 **Location:** `07-route.yaml`
@@ -101,6 +143,70 @@ Security context controls the allocation of security parameters for the pod/cont
 The source Route specified TLS. The emitted Ingress references .Values.route.tlsSecretName, which is not yet defined.
 
 **Remediation:** Provision/import the TLS secret on AKS and set route.tlsSecretName in the environment's values file.
+
+### [INPUT] `T10` — ImageStream 'hello-openshift': confirm image source on AKS
+
+**Location:** `01-imagestream.yaml`
+
+Source: docker.io/openshift/hello-openshift:latest.
+
+**Remediation:** Mirror docker.io/openshift/hello-openshift:latest into the target ACR (TBC_ACR_NAME.azurecr.io) (e.g. 'az acr import') and reference it directly in the container image field.
+
+### [INPUT] `T10` — ImageStream 'hello-nodejs': confirm image source on AKS
+
+**Location:** `01-imagestream.yaml`
+
+Source: built in-cluster (see BuildConfig).
+
+**Remediation:** Push the image built by the corresponding BuildConfig straight to the target ACR (TBC_ACR_NAME.azurecr.io) from the CI pipeline, and reference it directly in the container image field.
+
+### [INPUT] `T10` — ImageStream 'hello-openshift': confirm image source on AKS
+
+**Location:** `aks/01-imagestream.yaml`
+
+Source: docker.io/openshift/hello-openshift:latest.
+
+**Remediation:** Mirror docker.io/openshift/hello-openshift:latest into the target ACR (TBC_ACR_NAME.azurecr.io) (e.g. 'az acr import') and reference it directly in the container image field.
+
+### [INPUT] `T10` — ImageStream 'hello-nodejs': confirm image source on AKS
+
+**Location:** `aks/01-imagestream.yaml`
+
+Source: built in-cluster (see BuildConfig).
+
+**Remediation:** Push the image built by the corresponding BuildConfig straight to the target ACR (TBC_ACR_NAME.azurecr.io) from the CI pipeline, and reference it directly in the container image field.
+
+### [INPUT] `T11` — BuildConfig 'hello-nodejs-build': move build into the CI pipeline
+
+**Location:** `02-buildconfig.yaml`
+
+Source: https://github.com/sclorg/nodejs-ex.git (ref master), output image: 'hello-nodejs:latest'.
+
+**Remediation:** Add a docker build+push step for this image to the target ACR in the CI pipeline (see pipeline/build.yaml for the pattern this repo already uses for containerised builds).
+
+### [INPUT] `T11` — BuildConfig 'hello-nodejs-build': move build into the CI pipeline
+
+**Location:** `aks/02-buildconfig.yaml`
+
+Source: https://github.com/sclorg/nodejs-ex.git (ref master), output image: 'hello-nodejs:latest'.
+
+**Remediation:** Add a docker build+push step for this image to the target ACR in the CI pipeline (see pipeline/build.yaml for the pattern this repo already uses for containerised builds).
+
+### [INPUT] `T9` — DeploymentConfig 'hello-openshift': verify image rollout strategy
+
+**Location:** `05-deploymentconfig.yaml`
+
+The removed ImageChange/ConfigChange triggers drove automatic rollouts on this DeploymentConfig; Deployment has no equivalent.
+
+**Remediation:** Confirm the CD pipeline's image-tag update (see the T2 deploy.yaml rewrite, which sets --set image.tag=<resolved tag> on every helm upgrade) replaces what the trigger did.
+
+### [INPUT] `T9` — DeploymentConfig 'hello-openshift': verify image rollout strategy
+
+**Location:** `aks/05-deploymentconfig.yaml`
+
+The removed ImageChange/ConfigChange triggers drove automatic rollouts on this DeploymentConfig; Deployment has no equivalent.
+
+**Remediation:** Confirm the CD pipeline's image-tag update (see the T2 deploy.yaml rewrite, which sets --set image.tag=<resolved tag> on every helm upgrade) replaces what the trigger did.
 
 ## Artefacts
 

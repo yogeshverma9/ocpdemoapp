@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: migration-test
+  labels:
+    app: hello-ocp
+    purpose: ocp-to-aks-migration-test
+---
+# NOTE:
+# On OpenShift, projects are normally created with:
+#   oc new-project migration-test
+# A plain Namespace object is used here instead so the exact same file
+# works with `kubectl apply -f` on AKS and `oc apply -f` on OCP.

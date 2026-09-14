@@ -21,6 +21,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: hello-openshift
+                name: hello-aks
                 port:
                   number: {{ .Values.service.portValue }}

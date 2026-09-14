@@ -42,18 +42,18 @@ spec:
             limits:
               cpu: 200m
               memory: 128Mi
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /
               port: 8080
             initialDelaySeconds: 10
             periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
           volumeMounts:
             - name: hello-data
               mountPath: /data
@@ -61,10 +61,3 @@ spec:
         - name: hello-data
           persistentVolumeClaim:
             claimName: hello-pvc
-# NOTE:
-# DeploymentConfig is OpenShift-only. The AKS/K8s equivalent is a
-# standard "Deployment" (apps/v1). Migration considerations:
-#   - ImageChange/ConfigChange triggers -> handled by CI/CD updating the
-#     image tag and re-applying the Deployment (no built-in trigger).
-#   - rollingParams (maxSurge/maxUnavailable) map directly onto
-#     Deployment's spec.strategy.rollingUpdate fields.
