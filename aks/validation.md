@@ -2,7 +2,7 @@
 
 - **Repository:** `ocp-source`
 - **Mode:** `offline`
-- **Generated:** 2026-09-14T04:56:01+00:00
+- **Generated:** 2026-09-14T05:06:04+00:00
 
 ## Environment(s) converted
 
@@ -10,16 +10,15 @@
 |---|---|---|---|
 | `dev` | `dev` | `devops-ocp-to-aks-001` | `dev` |
 
-## Verdict: BLOCK
+## Verdict: NEEDS_REVIEW
 
-1 blocking finding(s) must be resolved before this workload can be deployed to AKS. No pull request will be opened for deployment. The most severe items are structural defects the OpenShift platform tolerated but AKS will reject.
+No blocking defects, but 5 finding(s) require human judgement and 5 configuration value(s) are still TBC. A pull request will be opened for review; it will not auto-merge.
 
 | Severity | Count |
 |---|---|
-| BLOCK | 1 |
 | HIGH | 4 |
 | MEDIUM | 1 |
-| INFO | 13 |
+| INFO | 14 |
 | NEEDS_INPUT | 5 |
 
 ## Transforms applied
@@ -31,18 +30,11 @@
 | `T10` | `01-imagestream.yaml` | ImageStream 'hello-nodejs' removed (no AKS equivalent) |
 | `T11` | `02-buildconfig.yaml` | BuildConfig 'hello-nodejs-build' removed (no AKS equivalent) |
 | `T9` | `05-deploymentconfig.yaml` | DeploymentConfig 'hello-openshift' converted to Deployment |
+| `T12` | `08-hpa.yaml` | HPA scaleTargetRef remapped to Deployment |
 | `L2` | `05-deploymentconfig.yaml` | LLM refinement replayed from frozen cache |
 | `L2` | `07-ingress.yaml` | LLM refinement replayed from frozen cache |
 
 ## Findings requiring action
-
-### [BLOCK] `V7` — Forbidden apiVersion apps.openshift.io/v1
-
-**Location:** `08-hpa.yaml`
-
-apps.openshift.io/v1 is not permitted on AKS.
-
-**Remediation:** Migrate to the supported API version.
 
 ### [HIGH] `M9` — No imagePullSecrets defined in any template
 

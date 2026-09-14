@@ -200,3 +200,16 @@
 -# resource (e.g. via NGINX Ingress Controller or the Azure Application
 -# Gateway Ingress Controller / AGIC), or to Azure Front Door / App
 -# Gateway for TLS-terminated public entry points.
+--- a/08-hpa.yaml
++++ b/08-hpa.yaml
+@@ -7,8 +7,8 @@
+     app: hello-ocp
+ spec:
+   scaleTargetRef:
+-    apiVersion: apps.openshift.io/v1
+-    kind: DeploymentConfig
++    apiVersion: apps/v1
++    kind: Deployment
+     name: hello-openshift
+   minReplicas: 1
+   maxReplicas: 3

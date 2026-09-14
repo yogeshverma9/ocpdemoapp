@@ -1,15 +1,5 @@
 [
   {
-    "rule_id": "V7",
-    "title": "Forbidden apiVersion apps.openshift.io/v1",
-    "severity": "BLOCK",
-    "path": "08-hpa.yaml",
-    "detail": "apps.openshift.io/v1 is not permitted on AKS.",
-    "remediation": "Migrate to the supported API version.",
-    "line": null,
-    "auto_fixed": false
-  },
-  {
     "rule_id": "M9",
     "title": "No imagePullSecrets defined in any template",
     "severity": "HIGH",
@@ -215,6 +205,16 @@
     "severity": "INFO",
     "path": "02-buildconfig.yaml",
     "detail": "In-cluster source-to-image builds aren't supported outside OpenShift.",
+    "remediation": "",
+    "line": null,
+    "auto_fixed": true
+  },
+  {
+    "rule_id": "T12",
+    "title": "HPA scaleTargetRef remapped to Deployment",
+    "severity": "INFO",
+    "path": "08-hpa.yaml",
+    "detail": "Rewrote 1 scaleTargetRef block(s) from apps.openshift.io/v1 DeploymentConfig to apps/v1 Deployment.",
     "remediation": "",
     "line": null,
     "auto_fixed": true

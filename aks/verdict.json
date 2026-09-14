@@ -1,11 +1,10 @@
 {
-  "decision": "BLOCK",
-  "rationale": "1 blocking finding(s) must be resolved before this workload can be deployed to AKS. No pull request will be opened for deployment. The most severe items are structural defects the OpenShift platform tolerated but AKS will reject.",
+  "decision": "NEEDS_REVIEW",
+  "rationale": "No blocking defects, but 5 finding(s) require human judgement and 5 configuration value(s) are still TBC. A pull request will be opened for review; it will not auto-merge.",
   "counts": {
-    "BLOCK": 1,
     "HIGH": 4,
     "MEDIUM": 1,
-    "INFO": 13,
+    "INFO": 14,
     "NEEDS_INPUT": 5
   }
 }
