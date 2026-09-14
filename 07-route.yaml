@@ -1,0 +1,22 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: hello-openshift
+  namespace: migration-test
+  labels:
+    app: hello-ocp
+spec:
+  to:
+    kind: Service
+    name: hello-openshift
+    weight: 100
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+# NOTE:
+# Route is OpenShift-only. On AKS this maps to a Kubernetes "Ingress"
+# resource (e.g. via NGINX Ingress Controller or the Azure Application
+# Gateway Ingress Controller / AGIC), or to Azure Front Door / App
+# Gateway for TLS-terminated public entry points.
