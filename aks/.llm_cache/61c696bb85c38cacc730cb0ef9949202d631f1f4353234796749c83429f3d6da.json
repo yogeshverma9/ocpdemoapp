@@ -1,5 +1,0 @@
-{
-  "response": "apiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  annotations:\n    haproxy.org/ssl-redirect: \"false\"\n  labels:\n    app: {{ .Values.service.label }}\n  name: hello-openshift\n  namespace: {{ .Values.deployment.namespace }}\nspec:\n  ingressClassName: haproxy\n  tls:\n    - hosts:\n        - {{ .Values.route.host }}\n      secretName: {{ .Values.route.tlsSecretName }}\n  rules:\n    - host: {{ .Values.route.host }}\n      http:\n        paths:\n          - path: /\n            pathType: Prefix\n            backend:\n              service:\n                name: hello-openshift\n                port:\n                  number: {{ .Values.service.portValue }}",
-  "path": "07-ingress.yaml",
-  "model": "llama3.1:8b"
-}
