@@ -160,21 +160,21 @@
     "auto_fixed": false
   },
   {
-    "rule_id": "L1",
-    "title": "LLM reviewed and updated this file",
+    "rule_id": "L2",
+    "title": "LLM refinement replayed from frozen cache",
     "severity": "INFO",
     "path": "05-deploymentconfig.yaml",
-    "detail": "Generated fresh by the model this run. Set FREEZE_OUTPUT=true in migration.env once you're happy with the result to lock it in.",
+    "detail": "FREEZE_OUTPUT is on and a cached response existed for this exact input - it was replayed verbatim for idempotent output.",
     "remediation": "",
     "line": null,
     "auto_fixed": true
   },
   {
-    "rule_id": "L1",
-    "title": "LLM reviewed and updated this file",
+    "rule_id": "L2",
+    "title": "LLM refinement replayed from frozen cache",
     "severity": "INFO",
     "path": "07-ingress.yaml",
-    "detail": "Generated fresh by the model this run. Set FREEZE_OUTPUT=true in migration.env once you're happy with the result to lock it in.",
+    "detail": "FREEZE_OUTPUT is on and a cached response existed for this exact input - it was replayed verbatim for idempotent output.",
     "remediation": "",
     "line": null,
     "auto_fixed": true

@@ -2,7 +2,7 @@
 
 - **Repository:** `ocp-source`
 - **Mode:** `offline`
-- **Generated:** 2026-09-14T04:46:10+00:00
+- **Generated:** 2026-09-14T04:56:01+00:00
 
 ## Environment(s) converted
 
@@ -31,8 +31,8 @@
 | `T10` | `01-imagestream.yaml` | ImageStream 'hello-nodejs' removed (no AKS equivalent) |
 | `T11` | `02-buildconfig.yaml` | BuildConfig 'hello-nodejs-build' removed (no AKS equivalent) |
 | `T9` | `05-deploymentconfig.yaml` | DeploymentConfig 'hello-openshift' converted to Deployment |
-| `L1` | `05-deploymentconfig.yaml` | LLM reviewed and updated this file |
-| `L1` | `07-ingress.yaml` | LLM reviewed and updated this file |
+| `L2` | `05-deploymentconfig.yaml` | LLM refinement replayed from frozen cache |
+| `L2` | `07-ingress.yaml` | LLM refinement replayed from frozen cache |
 
 ## Findings requiring action
 
