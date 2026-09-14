@@ -1,0 +1,25 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hello-openshift-hpa
+  namespace: migration-test
+  labels:
+    app: hello-ocp
+spec:
+  scaleTargetRef:
+    apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    name: hello-openshift
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+# NOTE:
+# On OCP, HPA can target a DeploymentConfig directly. After migration,
+# scaleTargetRef.kind must be changed to "Deployment" to match the
+# converted workload resource.

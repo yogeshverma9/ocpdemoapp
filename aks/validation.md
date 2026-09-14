@@ -2,7 +2,7 @@
 
 - **Repository:** `ocp-source`
 - **Mode:** `offline`
-- **Generated:** 2026-09-14T04:31:07+00:00
+- **Generated:** 2026-09-14T04:36:34+00:00
 
 ## Environment(s) converted
 
@@ -12,14 +12,14 @@
 
 ## Verdict: BLOCK
 
-1 blocking finding(s) must be resolved before this workload can be deployed to AKS. No pull request will be opened for deployment. The most severe items are structural defects the OpenShift platform tolerated but AKS will reject.
+2 blocking finding(s) must be resolved before this workload can be deployed to AKS. No pull request will be opened for deployment. The most severe items are structural defects the OpenShift platform tolerated but AKS will reject.
 
 | Severity | Count |
 |---|---|
-| BLOCK | 1 |
-| HIGH | 4 |
-| MEDIUM | 1 |
-| INFO | 13 |
+| BLOCK | 2 |
+| HIGH | 7 |
+| MEDIUM | 2 |
+| INFO | 14 |
 | NEEDS_INPUT | 5 |
 
 ## Transforms applied
@@ -31,14 +31,22 @@
 | `T10` | `01-imagestream.yaml` | ImageStream 'hello-nodejs' removed (no AKS equivalent) |
 | `T11` | `02-buildconfig.yaml` | BuildConfig 'hello-nodejs-build' removed (no AKS equivalent) |
 | `T9` | `05-deploymentconfig.yaml` | DeploymentConfig 'hello-openshift' converted to Deployment |
-| `L1` | `05-deploymentconfig.yaml` | LLM reviewed and updated this file |
-| `L1` | `07-ingress.yaml` | LLM reviewed and updated this file |
+| `L2` | `05-deploymentconfig.yaml` | LLM refinement replayed from frozen cache |
+| `L2` | `07-ingress.yaml` | LLM refinement replayed from frozen cache |
 
 ## Findings requiring action
 
 ### [BLOCK] `V7` — Forbidden apiVersion apps.openshift.io/v1
 
 **Location:** `08-hpa.yaml`
+
+apps.openshift.io/v1 is not permitted on AKS.
+
+**Remediation:** Migrate to the supported API version.
+
+### [BLOCK] `V7` — Forbidden apiVersion apps.openshift.io/v1
+
+**Location:** `aks/08-hpa.yaml`
 
 apps.openshift.io/v1 is not permitted on AKS.
 
@@ -76,9 +84,41 @@ Security context controls the allocation of security parameters for the pod/cont
 
 **Remediation:** To enhance security, it is strongly recommended not to rely on the default security context. Instead, it is advisable to explicitly define the required security parameters (such as runAsNonRoot, capabilities, readOnlyRootFilesystem, etc.) within the security context.
 
+### [HIGH] `V4` — Security: Root file system is not read-only
+
+**Location:** `aks/05-deploymentconfig.yaml`
+
+An immutable root file system prevents applications from writing to their local disk. This can limit intrusions, as attackers will not be able to tamper with the file system or write foreign executables to disk.
+
+**Remediation:** Change 'containers[].securityContext.readOnlyRootFilesystem' to 'true'.
+
+### [HIGH] `V4` — Security: Default security context configured
+
+**Location:** `aks/05-deploymentconfig.yaml`
+
+Security context controls the allocation of security parameters for the pod/container/volume, ensuring the appropriate level of protection. Relying on default security context may expose vulnerabilities to potential attacks that rely on privileged access.
+
+**Remediation:** To enhance security, it is strongly recommended not to rely on the default security context. Instead, it is advisable to explicitly define the required security parameters (such as runAsNonRoot, capabilities, readOnlyRootFilesystem, etc.) within the security context.
+
+### [HIGH] `V4` — Security: Default security context configured
+
+**Location:** `aks/05-deploymentconfig.yaml`
+
+Security context controls the allocation of security parameters for the pod/container/volume, ensuring the appropriate level of protection. Relying on default security context may expose vulnerabilities to potential attacks that rely on privileged access.
+
+**Remediation:** To enhance security, it is strongly recommended not to rely on the default security context. Instead, it is advisable to explicitly define the required security parameters (such as runAsNonRoot, capabilities, readOnlyRootFilesystem, etc.) within the security context.
+
 ### [MED] `L3` — LLM refinement rejected, reverted to deterministic output
 
 **Location:** `08-hpa.yaml`
+
+The model's response for this file failed a basic sanity/YAML check and was discarded; the deterministic transform/remediate output was kept.
+
+**Remediation:** Optionally re-run with LLM_FORCE_REFRESH=true, or inspect the cached prompt/response under LLM_CACHE_DIR.
+
+### [MED] `L3` — LLM refinement rejected, reverted to deterministic output
+
+**Location:** `aks/08-hpa.yaml`
 
 The model's response for this file failed a basic sanity/YAML check and was discarded; the deterministic transform/remediate output was kept.
 

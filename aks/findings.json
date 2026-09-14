@@ -10,6 +10,16 @@
     "auto_fixed": false
   },
   {
+    "rule_id": "V7",
+    "title": "Forbidden apiVersion apps.openshift.io/v1",
+    "severity": "BLOCK",
+    "path": "aks/08-hpa.yaml",
+    "detail": "apps.openshift.io/v1 is not permitted on AKS.",
+    "remediation": "Migrate to the supported API version.",
+    "line": null,
+    "auto_fixed": false
+  },
+  {
     "rule_id": "M9",
     "title": "No imagePullSecrets defined in any template",
     "severity": "HIGH",
@@ -50,10 +60,50 @@
     "auto_fixed": false
   },
   {
+    "rule_id": "V4",
+    "title": "Security: Root file system is not read-only",
+    "severity": "HIGH",
+    "path": "aks/05-deploymentconfig.yaml",
+    "detail": "An immutable root file system prevents applications from writing to their local disk. This can limit intrusions, as attackers will not be able to tamper with the file system or write foreign executables to disk.",
+    "remediation": "Change 'containers[].securityContext.readOnlyRootFilesystem' to 'true'.",
+    "line": null,
+    "auto_fixed": false
+  },
+  {
+    "rule_id": "V4",
+    "title": "Security: Default security context configured",
+    "severity": "HIGH",
+    "path": "aks/05-deploymentconfig.yaml",
+    "detail": "Security context controls the allocation of security parameters for the pod/container/volume, ensuring the appropriate level of protection. Relying on default security context may expose vulnerabilities to potential attacks that rely on privileged access.",
+    "remediation": "To enhance security, it is strongly recommended not to rely on the default security context. Instead, it is advisable to explicitly define the required security parameters (such as runAsNonRoot, capabilities, readOnlyRootFilesystem, etc.) within the security context.",
+    "line": null,
+    "auto_fixed": false
+  },
+  {
+    "rule_id": "V4",
+    "title": "Security: Default security context configured",
+    "severity": "HIGH",
+    "path": "aks/05-deploymentconfig.yaml",
+    "detail": "Security context controls the allocation of security parameters for the pod/container/volume, ensuring the appropriate level of protection. Relying on default security context may expose vulnerabilities to potential attacks that rely on privileged access.",
+    "remediation": "To enhance security, it is strongly recommended not to rely on the default security context. Instead, it is advisable to explicitly define the required security parameters (such as runAsNonRoot, capabilities, readOnlyRootFilesystem, etc.) within the security context.",
+    "line": null,
+    "auto_fixed": false
+  },
+  {
     "rule_id": "L3",
     "title": "LLM refinement rejected, reverted to deterministic output",
     "severity": "MEDIUM",
     "path": "08-hpa.yaml",
+    "detail": "The model's response for this file failed a basic sanity/YAML check and was discarded; the deterministic transform/remediate output was kept.",
+    "remediation": "Optionally re-run with LLM_FORCE_REFRESH=true, or inspect the cached prompt/response under LLM_CACHE_DIR.",
+    "line": null,
+    "auto_fixed": false
+  },
+  {
+    "rule_id": "L3",
+    "title": "LLM refinement rejected, reverted to deterministic output",
+    "severity": "MEDIUM",
+    "path": "aks/08-hpa.yaml",
     "detail": "The model's response for this file failed a basic sanity/YAML check and was discarded; the deterministic transform/remediate output was kept.",
     "remediation": "Optionally re-run with LLM_FORCE_REFRESH=true, or inspect the cached prompt/response under LLM_CACHE_DIR.",
     "line": null,
@@ -160,21 +210,31 @@
     "auto_fixed": false
   },
   {
-    "rule_id": "L1",
-    "title": "LLM reviewed and updated this file",
+    "rule_id": "D0",
+    "title": "OpenShift coupling: OpenShift DeploymentConfig API",
+    "severity": "INFO",
+    "path": "aks/08-hpa.yaml",
+    "detail": "Found marker 'apps.openshift.io'",
+    "remediation": "Handled by the transform stage.",
+    "line": 10,
+    "auto_fixed": false
+  },
+  {
+    "rule_id": "L2",
+    "title": "LLM refinement replayed from frozen cache",
     "severity": "INFO",
     "path": "05-deploymentconfig.yaml",
-    "detail": "Generated fresh by the model this run. Set FREEZE_OUTPUT=true in migration.env once you're happy with the result to lock it in.",
+    "detail": "FREEZE_OUTPUT is on and a cached response existed for this exact input - it was replayed verbatim for idempotent output.",
     "remediation": "",
     "line": null,
     "auto_fixed": true
   },
   {
-    "rule_id": "L1",
-    "title": "LLM reviewed and updated this file",
+    "rule_id": "L2",
+    "title": "LLM refinement replayed from frozen cache",
     "severity": "INFO",
     "path": "07-ingress.yaml",
-    "detail": "Generated fresh by the model this run. Set FREEZE_OUTPUT=true in migration.env once you're happy with the result to lock it in.",
+    "detail": "FREEZE_OUTPUT is on and a cached response existed for this exact input - it was replayed verbatim for idempotent output.",
     "remediation": "",
     "line": null,
     "auto_fixed": true

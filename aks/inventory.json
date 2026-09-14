@@ -1,6 +1,6 @@
 {
   "root": "/workspace",
-  "fileCount": 10,
+  "fileCount": 18,
   "files": {
     "00-namespace.yaml": {
       "ocpScore": 0,
@@ -67,6 +67,56 @@
       "apiVersion": "autoscaling/v2"
     },
     "09-pvc.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1"
+    },
+    "aks/00-namespace.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "Namespace",
+      "apiVersion": "v1"
+    },
+    "aks/03-configmap.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "ConfigMap",
+      "apiVersion": "v1"
+    },
+    "aks/04-secret.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "Secret",
+      "apiVersion": "v1"
+    },
+    "aks/05-deploymentconfig.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "Deployment",
+      "apiVersion": "apps/v1"
+    },
+    "aks/06-service.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "Service",
+      "apiVersion": "v1"
+    },
+    "aks/07-ingress.yaml": {
+      "ocpScore": 0,
+      "markers": [],
+      "kind": "Ingress",
+      "apiVersion": "networking.k8s.io/v1"
+    },
+    "aks/08-hpa.yaml": {
+      "ocpScore": 1,
+      "markers": [
+        "OpenShift DeploymentConfig API"
+      ],
+      "kind": "HorizontalPodAutoscaler",
+      "apiVersion": "autoscaling/v2"
+    },
+    "aks/09-pvc.yaml": {
       "ocpScore": 0,
       "markers": [],
       "kind": "PersistentVolumeClaim",
