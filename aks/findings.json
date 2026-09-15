@@ -51,11 +51,21 @@
   },
   {
     "rule_id": "T1",
+    "title": "Route had no explicit host (OCP auto-generated it)",
+    "severity": "NEEDS_INPUT",
+    "path": "07-route.yaml",
+    "detail": "The source Route relied on OpenShift's auto-generated host (openshift.io/host.generated). AKS/Ingress requires an explicit host.",
+    "remediation": "Set spec.rules[0].host in 07-ingress.yaml to the DNS name you want to expose.",
+    "line": null,
+    "auto_fixed": false
+  },
+  {
+    "rule_id": "T1",
     "title": "Route TLS termination requires a secretName",
     "severity": "NEEDS_INPUT",
     "path": "07-route.yaml",
-    "detail": "The source Route specified TLS. The emitted Ingress references .Values.route.tlsSecretName, which is not yet defined.",
-    "remediation": "Provision/import the TLS secret on AKS and set route.tlsSecretName in the environment's values file.",
+    "detail": "The source Route specified TLS. The emitted Ingress references secretName 'REPLACE_ME_TLS_SECRET', which does not exist yet.",
+    "remediation": "Provision/import the TLS secret on AKS and set spec.tls[0].secretName in 07-ingress.yaml.",
     "line": null,
     "auto_fixed": false
   },
@@ -150,6 +160,16 @@
     "auto_fixed": false
   },
   {
+    "rule_id": "L1",
+    "title": "LLM reviewed and updated this file",
+    "severity": "INFO",
+    "path": "07-ingress.yaml",
+    "detail": "Generated fresh by the model this run. Set FREEZE_OUTPUT=true in migration.env once you're happy with the result to lock it in.",
+    "remediation": "",
+    "line": null,
+    "auto_fixed": true
+  },
+  {
     "rule_id": "L2",
     "title": "LLM refinement replayed from frozen cache",
     "severity": "INFO",
@@ -160,21 +180,11 @@
     "auto_fixed": true
   },
   {
-    "rule_id": "L2",
-    "title": "LLM refinement replayed from frozen cache",
-    "severity": "INFO",
-    "path": "07-ingress.yaml",
-    "detail": "FREEZE_OUTPUT is on and a cached response existed for this exact input - it was replayed verbatim for idempotent output.",
-    "remediation": "",
-    "line": null,
-    "auto_fixed": true
-  },
-  {
     "rule_id": "T1",
     "title": "Route converted to Ingress",
     "severity": "INFO",
     "path": "07-route.yaml",
-    "detail": "Emitted 07-ingress.yaml with ingressClassName=haproxy",
+    "detail": "Emitted 07-ingress.yaml with ingressClassName=haproxy (plain manifest)",
     "remediation": "",
     "line": null,
     "auto_fixed": true

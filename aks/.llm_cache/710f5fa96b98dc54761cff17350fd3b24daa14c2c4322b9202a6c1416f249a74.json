@@ -1,0 +1,5 @@
+{
+  "response": "apiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  annotations:\n    haproxy.org/ssl-redirect: \"false\"\n  labels: app: hello-ocp\n  name: hello-openshift\n  namespace: migration-test\nspec:\n  ingressClassName: haproxy\n  tls:\n    - hosts:\n        - REPLACE_ME_HOST\n      secretName: REPLACE_ME_TLS_SECRET\n  rules:\n    - host: REPLACE_ME_HOST\n      http:\n        paths:\n          - path: /\n            pathType: Prefix\n            backend:\n              service:\n                name: hello-openshift\n                port:\n                  number: 80",
+  "path": "07-ingress.yaml",
+  "model": "llama3.1:8b"
+}

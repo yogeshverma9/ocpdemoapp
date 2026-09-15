@@ -149,24 +149,23 @@
 -#     Deployment's spec.strategy.rollingUpdate fields.
 +#     Deployment's spec.strategy.rollingUpdate fields.--- /dev/null
 +++ b/07-ingress.yaml
-@@ -0,0 +1,26 @@
+@@ -0,0 +1,25 @@
 +apiVersion: networking.k8s.io/v1
 +kind: Ingress
 +metadata:
 +  annotations:
 +    haproxy.org/ssl-redirect: "false"
-+  labels:
-+    app: {{ .Values.service.label }}
++  labels: app: hello-ocp
 +  name: hello-openshift
-+  namespace: {{ .Values.deployment.namespace }}
++  namespace: migration-test
 +spec:
 +  ingressClassName: haproxy
 +  tls:
 +    - hosts:
-+        - {{ .Values.route.host }}
-+      secretName: {{ .Values.route.tlsSecretName }}
++        - REPLACE_ME_HOST
++      secretName: REPLACE_ME_TLS_SECRET
 +  rules:
-+    - host: {{ .Values.route.host }}
++    - host: REPLACE_ME_HOST
 +      http:
 +        paths:
 +          - path: /
@@ -175,7 +174,7 @@
 +              service:
 +                name: hello-openshift
 +                port:
-+                  number: {{ .Values.service.portValue }}--- a/07-route.yaml
++                  number: 80--- a/07-route.yaml
 +++ /dev/null
 @@ -1,22 +0,0 @@
 -apiVersion: route.openshift.io/v1

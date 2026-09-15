@@ -3,18 +3,17 @@ kind: Ingress
 metadata:
   annotations:
     haproxy.org/ssl-redirect: "false"
-  labels:
-    app: {{ .Values.service.label }}
+  labels: app: hello-ocp
   name: hello-openshift
-  namespace: {{ .Values.deployment.namespace }}
+  namespace: migration-test
 spec:
   ingressClassName: haproxy
   tls:
     - hosts:
-        - {{ .Values.route.host }}
-      secretName: {{ .Values.route.tlsSecretName }}
+        - REPLACE_ME_HOST
+      secretName: REPLACE_ME_TLS_SECRET
   rules:
-    - host: {{ .Values.route.host }}
+    - host: REPLACE_ME_HOST
       http:
         paths:
           - path: /
@@ -23,4 +22,4 @@ spec:
               service:
                 name: hello-openshift
                 port:
-                  number: {{ .Values.service.portValue }}
+                  number: 80

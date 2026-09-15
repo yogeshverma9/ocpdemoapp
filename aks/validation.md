@@ -2,7 +2,7 @@
 
 - **Repository:** `ocp-source`
 - **Mode:** `offline`
-- **Generated:** 2026-09-14T05:06:04+00:00
+- **Generated:** 2026-09-15T23:04:10+00:00
 
 ## Environment(s) converted
 
@@ -12,14 +12,14 @@
 
 ## Verdict: NEEDS_REVIEW
 
-No blocking defects, but 5 finding(s) require human judgement and 5 configuration value(s) are still TBC. A pull request will be opened for review; it will not auto-merge.
+No blocking defects, but 5 finding(s) require human judgement and 6 configuration value(s) are still TBC. A pull request will be opened for review; it will not auto-merge.
 
 | Severity | Count |
 |---|---|
 | HIGH | 4 |
 | MEDIUM | 1 |
 | INFO | 14 |
-| NEEDS_INPUT | 5 |
+| NEEDS_INPUT | 6 |
 
 ## Transforms applied
 
@@ -32,7 +32,7 @@ No blocking defects, but 5 finding(s) require human judgement and 5 configuratio
 | `T9` | `05-deploymentconfig.yaml` | DeploymentConfig 'hello-openshift' converted to Deployment |
 | `T12` | `08-hpa.yaml` | HPA scaleTargetRef remapped to Deployment |
 | `L2` | `05-deploymentconfig.yaml` | LLM refinement replayed from frozen cache |
-| `L2` | `07-ingress.yaml` | LLM refinement replayed from frozen cache |
+| `L1` | `07-ingress.yaml` | LLM reviewed and updated this file |
 
 ## Findings requiring action
 
@@ -76,13 +76,21 @@ The model's response for this file failed a basic sanity/YAML check and was disc
 
 **Remediation:** Optionally re-run with LLM_FORCE_REFRESH=true, or inspect the cached prompt/response under LLM_CACHE_DIR.
 
+### [INPUT] `T1` — Route had no explicit host (OCP auto-generated it)
+
+**Location:** `07-route.yaml`
+
+The source Route relied on OpenShift's auto-generated host (openshift.io/host.generated). AKS/Ingress requires an explicit host.
+
+**Remediation:** Set spec.rules[0].host in 07-ingress.yaml to the DNS name you want to expose.
+
 ### [INPUT] `T1` — Route TLS termination requires a secretName
 
 **Location:** `07-route.yaml`
 
-The source Route specified TLS. The emitted Ingress references .Values.route.tlsSecretName, which is not yet defined.
+The source Route specified TLS. The emitted Ingress references secretName 'REPLACE_ME_TLS_SECRET', which does not exist yet.
 
-**Remediation:** Provision/import the TLS secret on AKS and set route.tlsSecretName in the environment's values file.
+**Remediation:** Provision/import the TLS secret on AKS and set spec.tls[0].secretName in 07-ingress.yaml.
 
 ### [INPUT] `T10` — ImageStream 'hello-openshift': confirm image source on AKS
 
